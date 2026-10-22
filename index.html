@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10101c">
+<title>Pseudo World 🌍</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:20px 14px 35px;
+ background:#0b0b14;color:#f7f5ff;
+ font-family:system-ui,-apple-system,sans-serif
+}
+main{max-width:650px;margin:auto}
+header{text-align:center;padding:22px 0}
+.logo{color:#b9a1ff;font-size:13px;letter-spacing:4px;font-weight:900}
+h1{font-size:43px;letter-spacing:-2px;margin:12px 0}
+h1 span{color:#ad8cff}
+p{color:#aaa8c0;line-height:1.55}
+.panel{
+ background:#151522;border:1px solid #2b2940;
+ padding:18px;border-radius:20px;margin:15px 0
+}
+h2{font-size:17px;margin:0 0 16px}
+label{display:block;font-size:13px;color:#c9c5e0;margin:14px 0 8px}
+input,select{
+ width:100%;padding:13px;background:#0c0c16;color:#fff;
+ border:1px solid #39364f;border-radius:11px;font:inherit
+}
+input:focus,select:focus{outline:1px solid #a78bfa}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.cat{
+ padding:12px 3px;border-radius:12px;border:1px solid #38354b;
+ background:#222132;color:#c8c4df;font-weight:750;cursor:pointer
+}
+.cat.active{background:#3b2b60;border-color:#ae91ff;color:white}
+.checkrow{
+ display:flex;align-items:center;gap:10px;margin:12px 0;
+ color:#e4e1f3;font-size:14px
+}
+.checkrow input{width:19px;height:19px;accent-color:#a78bfa}
+.primary{
+ width:100%;border:0;border-radius:13px;padding:15px;
+ margin-top:17px;background:linear-gradient(110deg,#7953ec,#c084fc);
+ color:white;font-weight:850;font-size:15px;cursor:pointer
+}
+.result{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:10px;background:#1c1b2b;border:1px solid #343149;
+ padding:13px;border-radius:12px;margin-top:9px
+}
+.resultname{font-weight:800;font-size:17px;overflow-wrap:anywhere}
+.copy{border:0;border-radius:9px;padding:10px 12px;
+ background:#393052;color:#eee4ff;font-weight:700;cursor:pointer}
+.muted{font-size:12px;color:#9995b2}
+.results{margin-top:12px}
+.hidden{display:none!important}
+footer{text-align:center;color:#85819c;font-size:12px;padding:18px}
+</style>
+</head>
+<body>
+<main>
+<header>
+ <div class="logo">🌍 PSEUDO WORLD</div>
+ <h1>Ton pseudo.<br><span>Ton univers.</span></h1>
+ <p>Découvre un nom original pour tes réseaux et tes jeux.</p>
+</header>
+
+<section class="panel">
+ <h2>① Choisis ta plateforme</h2>
+ <div class="categories">
+  <button class="cat active" data-type="tiktok">TikTok</button>
+  <button class="cat" data-type="gaming">🎮 Gaming</button>
+  <button class="cat" data-type="youtube">▶ YouTube</button>
+ </div>
+
+ <label for="fullname">② Ton nom ou un mot de départ</label>
+ <input id="fullname" maxlength="40" placeholder="Ex. Alex Martin">
+
+ <label for="length">③ Longueur du pseudo</label>
+ <select id="length">
+  <option value="3">Très court — 3 caractères</option>
+  <option value="4">Court — 4 caractères</option>
+  <option value="any" selected>Moderne — longueur libre</option>
+ </select>
+ <p class="muted">Les drapeaux et les séparateurs ajoutés ensuite ne comptent pas dans cette longueur.</p>
+</section>
+
+<section class="panel" id="flagPanel">
+ <h2>④ Veux-tu un drapeau ?</h2>
+ <label for="wantFlag">Ajouter un drapeau au pseudo ?</label>
+ <select id="wantFlag">
+  <option value="no">Non, sans drapeau</option>
+  <option value="yes">Oui, je choisis un pays</option>
+ </select>
+ <div id="countryBox" class="hidden">
+  <label for="country">Choisis un drapeau du monde</label>
+  <input id="countrySearch" placeholder="Rechercher un pays...">
+  <select id="country"></select>
+  <p class="muted">Les drapeaux dépendent de leur prise en charge par ton téléphone.</p>
+ </div>
+</section>
+
+<section class="panel">
+ <h2>⑤ Veux-tu des chiffres ?</h2>
+ <label for="numberMode">Combien de chiffres ?</label>
+ <select id="numberMode">
+  <option value="none">Aucun chiffre</option>
+  <option value="one">Un chiffre</option>
+  <option value="many">Plusieurs chiffres</option>
+  <option value="custom">Mes chiffres préférés</option>
+ </select>
+ <div id="numberBox" class="hidden">
+  <label for="numbers">Choisis tes chiffres</label>
+  <input id="numbers" inputmode="numeric" maxlength="12"
+  placeholder="Ex. 7 ou 27">
+  <p class="muted" id="numberHelp">Entre le ou les chiffres que tu veux.</p>
+ </div>
+
+ <h2 style="margin-top:24px">⑥ Personnalise ton style</h2>
+ <label class="checkrow">
+  <input type="checkbox" id="uppercase">
+  Mettre des majuscules
+ </label>
+ <label class="checkrow">
+  <input type="checkbox" id="underscore">
+  Ajouter un tiret du bas _
+ </label>
+ <label class="checkrow">
+  <input type="checkbox" id="dots">
+  Ajouter un point .
+ </label>
+
+ <label for="amount">Nombre de propositions</label>
+ <select id="amount">
+  <option value="5">5 pseudos</option>
+  <option value="10" selected>10 pseudos</option>
+  <option value="20">20 pseudos</option>
+ </select>
+ <button class="primary" id="generate">✨ GÉNÉRER MES PSEUDOS</button>
+</section>
+
+<section class="panel">
+ <h2>⑦ Tes pseudos</h2>
+ <p class="muted" id="status">Tes idées apparaîtront ici.</p>
+ <div id="results" class="results"></div>
+ <button id="again" class="primary">🔄 Générer d'autres idées</button>
+</section>
+
+<footer>🌍 Pseudo World · Trouve ton identité</footer>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+let type = "tiktok";
+
+/* Codes ISO des pays et territoires pour créer les drapeaux */
+const regions = (
+"AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ " +
+"BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ " +
+"CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ " +
+"DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR " +
+"GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY " +
+"HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP " +
+"KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV " +
+"LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW " +
+"MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH " +
+"PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG " +
+"SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ " +
+"TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI " +
+"VN VU WF WS YE YT ZA ZM ZW"
+).trim().split(/\s+/);
+
+const displayNames = typeof Intl.DisplayNames === "function"
+ ? new Intl.DisplayNames(["fr"],{type:"region"})
+ : null;
+
+function flagEmoji(code){
+ return [...code].map(c =>
+  String.fromCodePoint(127397+c.charCodeAt(0))
+ ).join("");
+}
+function countryName(code){
+ return displayNames?.of(code) || code;
+}
+const countrySelect=$("country");
+regions.sort((a,b)=>countryName(a).localeCompare(countryName(b),"fr"));
+regions.forEach(code=>{
+ const opt=document.createElement("option");
+ opt.value=code;
+ opt.textContent=flagEmoji(code)+" "+countryName(code);
+ countrySelect.appendChild(opt);
+});
+countrySelect.value="FR";
+
+$("countrySearch").addEventListener("input",()=>{
+ const query=$("countrySearch").value.toLocaleLowerCase("fr");
+ [...countrySelect.options].forEach(opt=>{
+  opt.hidden=!opt.textContent.toLocaleLowerCase("fr").includes(query);
+ });
+ const first=[...countrySelect.options].find(opt=>!opt.hidden);
+ if(first) countrySelect.value=first.value;
+});
+
+function updateFlag(){
+ $("countryBox").classList.toggle("hidden",$("wantFlag").value!=="yes");
+}
+$("wantFlag").addEventListener("change",updateFlag);
+
+function updatePlatform(){
+ $("flagPanel").classList.toggle("hidden",type==="gaming");
+ updateFlag();
+}
+document.querySelectorAll(".cat").forEach(button=>{
+ button.addEventListener("click",()=>{
+  type=button.dataset.type;
+  document.querySelectorAll(".cat").forEach(b=>
+   b.classList.toggle("active",b===button));
+  updatePlatform();
+ });
+});
+
+function clean(s){
+ return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+ .replace(/[^a-zA-Z0-9]/g,"");
+}
+function choose(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function consonants(s){
+ return s.toLowerCase().replace(/[^bcdfghjklmnpqrstvwxyz]/g,"");
+}
+function letters(s){
+ return s.toLowerCase().replace(/[^a-z]/g,"");
+}
+
+const extras={
+ tiktok:["luna","vani","noxi","sora","mira","luma","naya",
+ "elix","zely","aeri","nelo","lovi","velora","lunex"],
+ gaming:["vexor","kryzen","nivox","ravik","zyren","kaizen",
+ "orvex","draven","kyro","novak","ryven","xelon"],
+ youtube:["vayro","nexo","kairo","orion","lyro","avelo",
+ "mavik","elvio","zylo","novara","velto","klyro"]
+};
+
+function makeBase(input,shortLength){
+ const word=clean(input)||"Nova";
+ const cons=consonants(word)||"nxr";
+ const lets=letters(word)||"nova";
+
+ if(shortLength==="3"){
+  return cons[0]+lets[0]+cons[cons.length-1];
+ }
+ if(shortLength==="4"){
+  return cons[0]+lets[0]+lets[lets.length-1]+cons[cons.length-1];
+ }
+ return word;
+}
+
+function makeName(){
+ const input=$("fullname").value.trim();
+ const shortLength=$("length").value;
+ let name;
+ const base=makeBase(input,shortLength);
+
+ if(shortLength==="3"){
+  const c=consonants(clean(input))||"nxr";
+  const l=letters(clean(input))||"nova";
+  name=c[0]+choose(["0","1","2","3","4","5","6","7","8","9"])
+   +l[Math.floor(Math.random()*l.length)];
+ }else if(shortLength==="4"){
+  const c=consonants(clean(input))||"nxr";
+  const l=letters(clean(input))||"nova";
+  name=c[0]+choose("0123456789")
+   +l[Math.floor(Math.random()*l.length)]
+   +c[Math.floor(Math.random()*c.length)];
+ }else{
+  const pool=extras[type];
+  if(input && Math.random()<0.65){
+   const word=clean(input).toLowerCase();
+   const cut=Math.min(word.length,Math.max(2,Math.ceil(word.length*.6)));
+   name=word.slice(0,cut)+choose(["","x","o","z","y","ix","on"]);
+  }else{
+   name=choose(pool);
+  }
+ }
+ const mode=$("numberMode").value;
+ const digits=($("numbers").value.match(/\d/g)||[]).join("");
+ if(mode==="one") name+=choose("0123456789");
+ if(mode==="many") name+=String(Math.floor(Math.random()*90)+10);
+ if(mode==="custom" && digits) name+=digits.slice(0,8);
+
+ if($("uppercase").checked){
+  name=name.charAt(0).toUpperCase()+name.slice(1);
+ }
+ if($("underscore").checked) name+="_";
+ if($("dots").checked) name+=".";
+
+ if(type!=="gaming" && $("wantFlag").value==="yes"){
+  name+=flagEmoji(countrySelect.value);
+ }
+ return name;
+}
+
+$("numberMode").addEventListener("change",()=>{
+ const mode=$("numberMode").value;
+ $("numberBox").classList.toggle("hidden",mode==="none");
+ $("numberHelp").textContent=mode==="one"
+ ? "Choisis un chiffre entre 0 et 9."
+ : mode==="many"
+ ? "Entre plusieurs chiffres, par exemple 27."
+ : "Entre les chiffres exacts que tu veux ajouter.";
+ if(mode==="one") $("numbers").maxLength=1;
+ else $("numbers").maxLength=12;
+});
+$("numbers").addEventListener("input",()=>{
+ $("numbers").value=$("numbers").value.replace(/\D/g,"");
+});
+
+function copyText(text,button){
+ const fallback=()=>{
+  const area=document.createElement("textarea");
+  area.value=text;document.body.appendChild(area);
+  area.select();
+  try{document.execCommand("copy");button.textContent="Copié ✓";}
+  catch(e){button.textContent="Sélectionne le texte";}
+  area.remove();
+ };
+ if(navigator.clipboard && window.isSecureContext){
+  navigator.clipboard.writeText(text).then(()=>{
+   button.textContent="Copié ✓";
+  }).catch(fallback);
+ }else fallback();
+ setTimeout(()=>button.textContent="Copier",1500);
+}
+
+function generate(){
+ const results=$("results");
+ results.innerHTML="";
+ const count=Number($("amount").value);
+ const names=new Set();
+ let attempts=0;
+ while(names.size<count && attempts<count*20){
+  names.add(makeName());attempts++;
+ }
+ [...names].forEach(name=>{
+  const row=document.createElement("div");
+  row.className="result";
+  const label=document.createElement("span");
+  label.className="resultname";
+  label.textContent=name;
+  const button=document.createElement("button");
+  button.className="copy";
+  button.textContent="Copier";
+  button.addEventListener("click",()=>copyText(name,button));
+  row.append(label,button);
+  results.appendChild(row);
+ });
+ $("status").textContent=names.size+" propositions générées";
+}
+$("generate").addEventListener("click",generate);
+$("again").addEventListener("click",generate);
+updatePlatform();
+generate();
+</script>
+</body>
+</html>
